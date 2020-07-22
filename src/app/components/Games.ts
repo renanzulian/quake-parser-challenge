@@ -53,7 +53,7 @@ class Game {
     const removedPlayer = this.getPlayerById(id)
     this._disconnectedPlayers.push(removedPlayer)
     this._players = this.players.filter((player) => {
-      JSON.stringify(player) !== JSON.stringify(removedPlayer)
+      return JSON.stringify(player) !== JSON.stringify(removedPlayer)
     })
   }
 

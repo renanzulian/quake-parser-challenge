@@ -4,10 +4,15 @@ import Player from './Player'
 
 describe('Game Entity', () => {
   let game: Game
-  const randomId = faker.random.number(10)
+  let range: number[]
 
   beforeEach(() => {
-    game = new Game(randomId)
+    const randomInt = faker.random.number(10)
+    range = Array.from(Array(faker.random.number({ max: 20, min: 5 })).keys())
+    game = new Game(randomInt)
+    range.forEach((id) => {
+      game.addPlayer(id)
+    })
   })
 
   it('should be defined', () => {
@@ -15,43 +20,33 @@ describe('Game Entity', () => {
   })
 
   it('should add many players', () => {
-    const randomRangeId = Array.from(Array(faker.random.number(20)).keys())
-    randomRangeId.forEach((id) => {
-      game.addPlayer(id)
-    })
-    expect(game.players.length).toBe(randomRangeId.length)
+    game.addPlayer(range.length + 1)
+    const randomInt = faker.random.number(range.length)
+    const player = game.getPlayerById(randomInt)
+    expect(player.id).toBe(randomInt)
+    expect(player.name).toBe('Unknown')
+    expect(game.players.length).toBe(range.length + 1)
     game.players.forEach((player) => {
       expect(player).toBeInstanceOf(Player)
     })
   })
 
   it('should update the name of any player', () => {
-    const randomId = faker.random.number(100)
+    const randomId = faker.random.number(range.length)
     const randomName = faker.name.firstName()
-    game.addPlayer(randomId)
-    const player = game.getPlayerById(randomId)
-    expect(player.id).toBe(randomId)
-    expect(player.name).toBe('Unknown')
     game.updatePlayerName(randomId, randomName)
+    const player = game.getPlayerById(randomId)
     expect(player.name).toBe(randomName)
   })
 
   it('should move any player to disconnected players', () => {
-    const randomId = faker.random.number(100)
-    game.addPlayer(randomId)
-    expect(game.players.length).toBe(1)
+    const randomId = faker.random.number(range.length)
     game.removePlayer(randomId)
-    expect(game.players.length).toBe(0)
+    expect(game.players.length).toBe(range.length - 1)
     expect(game.disconnectedPlayers.length).toBe(1)
   })
 
   it('should save a event kill', () => {
-    const randomRangeId = Array.from(
-      Array(faker.random.number({ max: 10, min: 5 })).keys()
-    )
-    randomRangeId.forEach((id) => {
-      game.addPlayer(id)
-    })
     game.eventKill(2, 3)
     expect(game.totalKills).toBe(1)
   })
