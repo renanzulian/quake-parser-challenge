@@ -6,6 +6,9 @@ import Player from './components/Player'
 class QuakeParse {
   events: string[]
   games: Game[] = []
+  get currentGame(): Game {
+    return this.games[this.games.length - 1]
+  }
 
   constructor() {
     const dataFile = fs.readFileSync(
@@ -25,20 +28,14 @@ class QuakeParse {
     this.games.push(new Game(gameId))
   }
 
-  currentGame(): Game {
-    return this.games[this.games.length - 1]
-  }
-
   addPlayerInCurrentGame(id: number): void {
     const player = new Player(id)
-    const currentGame = this.currentGame()
-    currentGame.addPlayer(player)
+    this.currentGame.addPlayer(player)
   }
 
   updatePlayerName(id: number, name: string): void {
-    const currentGame = this.currentGame()
-    currentGame.getPlayerById(id)
-    currentGame.setNamePlayer(id, name)
+    this.currentGame.getPlayerById(id)
+    this.currentGame.setNamePlayer(id, name)
   }
 }
 
