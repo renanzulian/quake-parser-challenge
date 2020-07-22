@@ -25,14 +25,20 @@ class QuakeParse {
     this.games.push(new Game(gameId))
   }
 
-  getCurrentGame(): Game {
+  currentGame(): Game {
     return this.games[this.games.length - 1]
   }
 
   addPlayerInCurrentGame(id: number): void {
     const player = new Player(id)
-    const currentGame = this.getCurrentGame()
+    const currentGame = this.currentGame()
     currentGame.addPlayer(player)
+  }
+
+  updatePlayerName(id: number, name: string): void {
+    const currentGame = this.currentGame()
+    currentGame.getPlayerById(id)
+    currentGame.setNamePlayer(id, name)
   }
 }
 

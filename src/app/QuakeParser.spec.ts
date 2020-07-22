@@ -44,7 +44,7 @@ describe('QuakeParseCore', () => {
     core.startNewGame()
     core.startNewGame()
     core.startNewGame()
-    const currentGame = core.getCurrentGame()
+    const currentGame = core.currentGame()
     expect(currentGame).toBeInstanceOf(Game)
     expect(currentGame).toBe(core.games[2])
     expect(currentGame.getGameId()).toBe(3)
@@ -53,7 +53,7 @@ describe('QuakeParseCore', () => {
 
   it('should add a player in the current game', () => {
     core.startNewGame()
-    const currentGame = core.getCurrentGame()
+    const currentGame = core.currentGame()
     const randomIdOne = faker.random.number(10)
     const randomIdTwo = faker.random.number(10)
     core.addPlayerInCurrentGame(randomIdOne)
@@ -68,5 +68,12 @@ describe('QuakeParseCore', () => {
 
   it('should update the player name', () => {
     core.startNewGame()
+    const randomId = faker.random.number(10)
+    const randomName = faker.name.firstName()
+    core.addPlayerInCurrentGame(randomId)
+    core.updatePlayerName(randomId, randomName)
+    const currentGame = core.currentGame()
+    const player = currentGame.getPlayerById(randomId)
+    expect(player.getName()).toBe(randomName)
   })
 })

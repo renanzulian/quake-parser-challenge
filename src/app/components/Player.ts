@@ -9,12 +9,20 @@ class Player {
     this.kills = 0
   }
 
+  getId(): number {
+    return this.id
+  }
+
   getName(): string {
     return this.name
   }
 
   getKills(): number {
     return this.kills
+  }
+
+  setName(name: string): void {
+    this.name = name
   }
 }
 

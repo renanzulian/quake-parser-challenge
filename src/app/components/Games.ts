@@ -28,6 +28,19 @@ class Game {
   getPlayers(): Player[] {
     return this.players
   }
+
+  getPlayerById(id: number): Player {
+    const player = this.players.find((p) => p.getId() === id)
+    if (typeof player === 'undefined') {
+      throw new Error(`Player ${id} not found`)
+    }
+    return player
+  }
+
+  setNamePlayer(id: number, name: string): void {
+    const player = this.getPlayerById(id)
+    player.setName(name)
+  }
 }
 
 export default Game
