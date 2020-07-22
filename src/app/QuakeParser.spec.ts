@@ -1,5 +1,8 @@
+import QuakeParse from './QuakeParser'
+
 describe('QuakeParseCore', () => {
-  it('should not error', () => {
-    expect(true).toBeTruthy()
+  const core = new QuakeParse()
+  it('should be instantiated', () => {
+    expect(core).toBeDefined()
   })
 })
