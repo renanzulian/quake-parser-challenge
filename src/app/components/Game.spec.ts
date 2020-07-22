@@ -44,4 +44,15 @@ describe('Game Entity', () => {
     expect(game.players.length).toBe(0)
     expect(game.disconnectedPlayers.length).toBe(1)
   })
+
+  it('should save a event kill', () => {
+    const randomRangeId = Array.from(
+      Array(faker.random.number({ max: 10, min: 5 })).keys()
+    )
+    randomRangeId.forEach((id) => {
+      game.addPlayer(id)
+    })
+    game.eventKill(2, 3)
+    expect(game.totalKills).toBe(1)
+  })
 })

@@ -2,11 +2,13 @@ class Player {
   private _id: number
   private _name: string
   private _kills: number
+  private _deaths: number
 
   constructor(id: number) {
     this._id = id
     this._name = 'Unknown'
     this._kills = 0
+    this._deaths = 0
   }
 
   get id(): number {
@@ -23,6 +25,14 @@ class Player {
 
   get kills(): number {
     return this._kills
+  }
+
+  addKill(): void {
+    this._kills += 1
+  }
+
+  addDeath(): void {
+    this._deaths += 1
   }
 }
 

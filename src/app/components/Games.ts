@@ -56,6 +56,16 @@ class Game {
       JSON.stringify(player) !== JSON.stringify(removedPlayer)
     })
   }
+
+  eventKill(whoDiedId: number, whoKillId?: number): void {
+    const whoDied = this.getPlayerById(whoDiedId)
+    whoDied.addDeath()
+    if (typeof whoKillId !== 'undefined') {
+      const whoKill = this.getPlayerById(whoKillId)
+      whoKill.addKill()
+    }
+    this._totalKills += 1
+  }
 }
 
 export default Game
