@@ -1,21 +1,12 @@
 import QuakeParse from './QuakeParser'
 import * as faker from 'faker'
+import { quakeOperators } from './utils/utils'
 
 describe('QuakeParseCore', () => {
   const core = new QuakeParse()
   it('should be instantiated', () => {
     expect(core).toBeDefined()
   })
-
-  const quakeOperations = [
-    'InitGame',
-    'ClientConnect',
-    'ClientDisconnect',
-    'ClientUserinfoChanged',
-    'Kill',
-    'Item',
-    'Shutdown',
-  ]
 
   it('should have a list of events (logs) to process', () => {
     expect(core).toHaveProperty('events')
@@ -29,7 +20,7 @@ describe('QuakeParseCore', () => {
     expect(result).toHaveProperty('operation')
     expect(result).toHaveProperty('args')
     if (typeof result.operation !== 'undefined') {
-      expect(quakeOperations).toContain(result.operation)
+      expect(quakeOperators).toContain(result.operation)
       expect(result.args).toBeTruthy()
     } else {
       expect(result.operation).toBeFalsy()
