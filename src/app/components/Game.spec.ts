@@ -35,4 +35,13 @@ describe('Game Entity', () => {
     game.updatePlayerName(randomId, randomName)
     expect(player.name).toBe(randomName)
   })
+
+  it('should move any player to disconnected players', () => {
+    const randomId = faker.random.number(100)
+    game.addPlayer(randomId)
+    expect(game.players.length).toBe(1)
+    game.removePlayer(randomId)
+    expect(game.players.length).toBe(0)
+    expect(game.disconnectedPlayers.length).toBe(1)
+  })
 })
