@@ -1,9 +1,9 @@
 class Game {
-  name: string
+  id: number
   total_kills: number
   players = []
-  constructor(name: string) {
-    this.name = name
+  constructor(id: number) {
+    this.id = id
     this.total_kills = 0
   }
 }

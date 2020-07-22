@@ -20,8 +20,12 @@ class QuakeParse {
   }
 
   startNewGame(): void {
-    const nameGame = String(this.games.length + 1)
-    this.games.push(new Game(nameGame))
+    const gameId = this.games.length + 1
+    this.games.push(new Game(gameId))
+  }
+
+  getCurrentGame(): Game {
+    return this.games[this.games.length - 1]
   }
 }
 

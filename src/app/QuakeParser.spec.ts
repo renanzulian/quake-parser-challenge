@@ -1,11 +1,16 @@
 import QuakeParse from './QuakeParser'
 import * as faker from 'faker'
 import { quakeOperators } from './utils/utils'
+import Game from './components/Games'
 
 describe('QuakeParseCore', () => {
-  const core = new QuakeParse()
+  let core: QuakeParse
   it('should be instantiated', () => {
     expect(core).toBeDefined()
+  })
+
+  beforeEach(() => {
+    core = new QuakeParse()
   })
 
   it('should have a list of events (logs) to process', () => {
@@ -32,5 +37,17 @@ describe('QuakeParseCore', () => {
     const totalGameOnInit = core.games.length
     core.startNewGame()
     expect(core.games.length).toBe(totalGameOnInit + 1)
+  })
+
+  it('should return the current game', () => {
+    expect(core.games.length).toBe(0)
+    core.startNewGame()
+    core.startNewGame()
+    core.startNewGame()
+    const currentGame = core.getCurrentGame()
+    expect(currentGame).toBeInstanceOf(Game)
+    expect(currentGame).toBe(core.games[2])
+    expect(currentGame.id).toBe(3)
+    expect(currentGame.total_kills).toBe(0)
   })
 })
