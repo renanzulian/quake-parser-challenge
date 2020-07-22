@@ -1,16 +1,17 @@
-import QuakeParse from './QuakeParser'
+import QuakeParser from './QuakeParser'
 import * as faker from 'faker'
 import { quakeOperators } from './utils/utils'
 import Game from './components/Games'
 
-describe('QuakeParseCore', () => {
-  let core: QuakeParse
-  it('should be instantiated', () => {
-    expect(core).toBeDefined()
-  })
+describe('QuakeParserCore Entity', () => {
+  let core: QuakeParser
 
   beforeEach(() => {
-    core = new QuakeParse()
+    core = new QuakeParser()
+  })
+
+  it('should be instantiated', () => {
+    expect(core).toBeDefined()
   })
 
   it('should have a list of events (logs) to process', () => {
@@ -35,15 +36,15 @@ describe('QuakeParseCore', () => {
 
   it('should start a new game', () => {
     const totalGameOnInit = core.games.length
-    core.startNewGame()
+    core.initGameOperator()
     expect(core.games.length).toBe(totalGameOnInit + 1)
   })
 
   it('should return the current game', () => {
     expect(core.games.length).toBe(0)
-    core.startNewGame()
-    core.startNewGame()
-    core.startNewGame()
+    core.initGameOperator()
+    core.initGameOperator()
+    core.initGameOperator()
     expect(core.currentGame).toBeInstanceOf(Game)
     expect(core.currentGame).toBe(core.games[2])
     expect(core.currentGame.id).toBe(3)
@@ -51,11 +52,11 @@ describe('QuakeParseCore', () => {
   })
 
   it('should add a player in the current game', () => {
-    core.startNewGame()
+    core.initGameOperator()
     const randomIdOne = faker.random.number(10)
     const randomIdTwo = faker.random.number(10)
-    core.addPlayerInCurrentGame(randomIdOne)
-    core.addPlayerInCurrentGame(randomIdTwo)
+    core.clientConnectOperator(randomIdOne)
+    core.clientConnectOperator(randomIdTwo)
     const allPlayers = core.currentGame.players
     allPlayers.forEach((player) => {
       expect(player.name).toBe('Unknown')
@@ -65,11 +66,11 @@ describe('QuakeParseCore', () => {
   })
 
   it('should update the player name', () => {
-    core.startNewGame()
+    core.initGameOperator()
     const randomId = faker.random.number(10)
     const randomName = faker.name.firstName()
-    core.addPlayerInCurrentGame(randomId)
-    core.updatePlayerName(randomId, randomName)
+    core.clientConnectOperator(randomId)
+    core.clientUserinfoChangedOperator(randomId, randomName)
     const player = core.currentGame.getPlayerById(randomId)
     expect(player.name).toBe(randomName)
   })
