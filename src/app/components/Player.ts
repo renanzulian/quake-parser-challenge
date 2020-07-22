@@ -1,28 +1,28 @@
 class Player {
-  private id: number
-  private name: string
-  private kills: number
+  private _id: number
+  private _name: string
+  private _kills: number
 
   constructor(id: number) {
-    this.id = id
-    this.name = 'Unknown'
-    this.kills = 0
+    this._id = id
+    this._name = 'Unknown'
+    this._kills = 0
   }
 
-  getId(): number {
-    return this.id
+  get id(): number {
+    return this._id
   }
 
-  getName(): string {
-    return this.name
+  get name(): string {
+    return this._name
   }
 
-  getKills(): number {
-    return this.kills
+  set name(name: string) {
+    this._name = name
   }
 
-  setName(name: string): void {
-    this.name = name
+  get kills(): number {
+    return this._kills
   }
 }
 

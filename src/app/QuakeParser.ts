@@ -1,7 +1,6 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import Game from './components/Games'
-import Player from './components/Player'
 
 class QuakeParse {
   events: string[]
@@ -29,13 +28,11 @@ class QuakeParse {
   }
 
   addPlayerInCurrentGame(id: number): void {
-    const player = new Player(id)
-    this.currentGame.addPlayer(player)
+    this.currentGame.addPlayer(id)
   }
 
   updatePlayerName(id: number, name: string): void {
-    this.currentGame.getPlayerById(id)
-    this.currentGame.setNamePlayer(id, name)
+    this.currentGame.updatePlayerName(id, name)
   }
 }
 

@@ -1,45 +1,46 @@
 import Player from './Player'
 
 class Game {
-  private gameId: number
-  private total_kills: number
-  private players: Player[] = []
+  private _id: number
+  private _totalKills: number
+  private _players: Player[] = []
   constructor(id: number) {
-    this.gameId = id
-    this.total_kills = 0
+    this._id = id
+    this._totalKills = 0
   }
 
-  totalPlayers(): number {
-    return this.players.length
+  get id(): number {
+    return this._id
   }
 
-  addPlayer(player: Player): void {
-    this.players.push(player)
+  get numberPlayers(): number {
+    return this._players.length
   }
 
-  getTotalKills(): number {
-    return this.total_kills
+  get totalKills(): number {
+    return this._totalKills
   }
 
-  getGameId(): number {
-    return this.gameId
+  get players(): Player[] {
+    return this._players
   }
 
-  getPlayers(): Player[] {
-    return this.players
+  addPlayer(id: number): void {
+    const player = new Player(id)
+    this._players.push(player)
   }
 
   getPlayerById(id: number): Player {
-    const player = this.players.find((p) => p.getId() === id)
+    const player = this._players.find((p) => p.id === id)
     if (typeof player === 'undefined') {
       throw new Error(`Player ${id} not found`)
     }
     return player
   }
 
-  setNamePlayer(id: number, name: string): void {
+  updatePlayerName(id: number, name: string): void {
     const player = this.getPlayerById(id)
-    player.setName(name)
+    player.name = name
   }
 }
 
