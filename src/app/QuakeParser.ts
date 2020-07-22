@@ -28,6 +28,7 @@ class QuakeParser {
       switch (operation) {
         case 'InitGame':
           // TO FORMAT THE ARGS AND START A NEW GAME
+          this.initGameOperator()
           break
         case 'ClientConnect':
           // TO FORMAT THE ARGS AND ADD A NEW PLAYER

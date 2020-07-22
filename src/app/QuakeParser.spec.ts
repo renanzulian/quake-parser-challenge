@@ -34,10 +34,13 @@ describe('QuakeParserCore Entity', () => {
     }
   })
 
-  it('should start a new game', () => {
-    const totalGameOnInit = core.games.length
+  it('should start a new game at any time', () => {
     core.initGameOperator()
-    expect(core.games.length).toBe(totalGameOnInit + 1)
+    const firstGame = core.currentGame
+    core.initGameOperator()
+    const secondGame = core.currentGame
+    expect(firstGame).not.toEqual(secondGame)
+    expect(core.games.length).toBe(2)
   })
 
   it('should return the current game', () => {
