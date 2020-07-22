@@ -32,7 +32,7 @@ describe('Game Entity', () => {
   })
 
   it('should update the name of any player', () => {
-    const randomId = faker.random.number(range.length)
+    const randomId = faker.random.number({ min: 1, max: range.length - 1 })
     const randomName = faker.name.firstName()
     game.updatePlayerName(randomId, randomName)
     const player = game.getPlayerById(randomId)
@@ -48,6 +48,7 @@ describe('Game Entity', () => {
 
   it('should save a event kill', () => {
     game.eventKill(2, 3)
-    expect(game.totalKills).toBe(1)
+    game.eventKill(2)
+    expect(game.totalKills).toBe(2)
   })
 })
