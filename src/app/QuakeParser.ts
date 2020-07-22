@@ -11,6 +11,11 @@ class QuakeParse {
     )
     this.events = dataFile.split('\n')
   }
+
+  eventSplitter(event: string): Record<string, string> {
+    const [, operation, args] = event.split(/([a-zA-Z]+): /)
+    return { operation, args }
+  }
 }
 
 export default QuakeParse
