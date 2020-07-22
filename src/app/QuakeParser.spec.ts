@@ -27,4 +27,10 @@ describe('QuakeParseCore', () => {
       expect(result.args).toBeFalsy()
     }
   })
+
+  it('should start a new game', () => {
+    const totalGameOnInit = core.games.length
+    core.startNewGame()
+    expect(core.games.length).toBe(totalGameOnInit + 1)
+  })
 })
