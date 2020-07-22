@@ -1,0 +1,14 @@
+{
+  "name": "quake-parser-challenge",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "Renan Zulian <renanzulian@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  }
+}
