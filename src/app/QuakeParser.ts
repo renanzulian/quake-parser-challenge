@@ -17,7 +17,7 @@ class QuakeParser {
   }
 
   get currentEvent(): string {
-    return this.events[this.events.length - 1]
+    return this.events[0]
   }
 
   run(): void {
@@ -34,6 +34,7 @@ class QuakeParser {
           break
         case 'ClientDisconnect':
           // TO FORMAT THE ARGS AND MOVE A PLAYER TO SOMETHING LIKE A HISTORIC
+          this.clientDisconnectOperator(args)
           break
         case 'ClientUserinfoChanged':
           // TO FORMAT THE ARGS AND MOVE UPDATE PLAYER NAME
@@ -41,11 +42,12 @@ class QuakeParser {
           break
         case 'Kill':
           // TO FORMAT THE ARGS AND ADD A KILL IN THE GAME
+          this.killOperator(args)
           break
         default:
           break
       }
-      this.events.pop()
+      this.events.shift()
     } while (this.currentEvent)
   }
 
@@ -81,16 +83,35 @@ class QuakeParser {
 
   findFirstNameValid(text: string): string {
     const regex = /(?<=n\\)(.*?)(?=.t\\)/
-    const name = regex.exec(text)
-    if (!name) {
+    const result = regex.exec(text)
+    if (!result) {
       throw new Error(`Valid name not found in ${text}`)
     }
-    return name[0]
+    return result[0]
   }
 
   clientDisconnectOperator(args: string): void {
     const id = this.findFirstIdValid(args)
     this.currentGame.removePlayer(id)
+  }
+
+  killOperator(args: string): void {
+    const [whoKill, whoDied] = this.findTwoFirstsIdValid(args)
+    if (whoKill === 1022) {
+      this.currentGame.eventKill(whoDied)
+    } else {
+      this.currentGame.eventKill(whoDied, whoKill)
+    }
+  }
+
+  findTwoFirstsIdValid(text: string): number[] {
+    const regex = /\d+/g
+    const result = text.match(regex)
+    if (result === null) {
+      throw new Error(`Two ids valid not found in ${text}`)
+    }
+    const [firstId, secondId] = result
+    return [Number(firstId), Number(secondId)]
   }
 }
 
