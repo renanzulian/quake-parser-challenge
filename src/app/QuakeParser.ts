@@ -28,32 +28,6 @@ class QuakeParser {
     return this._events[0]
   }
 
-  get results(): any[] {
-    return this._games.map((game) => game.endScore)
-  }
-
-  get ranking(): string {
-    const allPlayers = this._games
-      .map((game) => game.historicPlayers)
-      .reduce((prev, curr) => [...prev, ...curr], [])
-    const playersScores = allPlayers.map((player) => ({
-      [player.name]: player.kills,
-    }))
-    const rankingFormatted = playersScores.reduce((prev, curr) => {
-      const currentName = Object.keys(curr)[0]
-      const currentValue = Object.values(curr)[0]
-      if (Object.keys(prev).includes(currentName)) {
-        prev[currentName] += currentValue
-      }
-      return { ...prev, ...curr }
-    }, {})
-    const rankingSorted = Object.keys(rankingFormatted)
-      .sort((a, b) => rankingFormatted[b] - rankingFormatted[a])
-      .map((player) => ({ [player]: rankingFormatted[player] }))
-      .reduce((prev, curr) => ({ ...prev, ...curr }), {})
-    return JSON.stringify(rankingSorted, null, 4)
-  }
-
   run(): void {
     do {
       const { operation, args } = this.eventSplitter(this.currentEvent)
@@ -146,6 +120,34 @@ class QuakeParser {
     }
     const [firstId, secondId] = result
     return [Number(firstId), Number(secondId)]
+  }
+
+  get results(): Array<
+    Record<string, Record<string, number | Record<string, number>>>
+  > {
+    return this._games.map((game) => game.endScore)
+  }
+
+  get ranking(): Record<string, number> {
+    const allPlayers = this._games
+      .map((game) => game.historicPlayers)
+      .reduce((prev, curr) => [...prev, ...curr], [])
+    const playersScores = allPlayers.map((player) => ({
+      [player.name]: player.kills,
+    }))
+    const rankingFormatted = playersScores.reduce((prev, curr) => {
+      const currentName = Object.keys(curr)[0]
+      const currentValue = Object.values(curr)[0]
+      if (Object.keys(prev).includes(currentName)) {
+        prev[currentName] += currentValue
+      }
+      return { ...prev, ...curr }
+    }, {})
+    const rankingSorted = Object.keys(rankingFormatted)
+      .sort((a, b) => rankingFormatted[b] - rankingFormatted[a])
+      .map((player) => ({ [player]: rankingFormatted[player] }))
+      .reduce((prev, curr) => ({ ...prev, ...curr }), {})
+    return rankingSorted
   }
 }
 
