@@ -1,5 +1,4 @@
 import Game from './components/Games'
-import Player from './components/Player'
 
 class QuakeParser {
   events: string[]

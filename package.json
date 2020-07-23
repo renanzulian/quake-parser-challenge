@@ -6,7 +6,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon src/bin/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "ranking": "ts-node scripts/ranking.ts",
+    "games": "ts-node scripts/games.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
