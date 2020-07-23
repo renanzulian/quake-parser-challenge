@@ -1,17 +1,15 @@
-import * as fs from 'fs'
-import * as path from 'path'
 import Game from './components/Games'
 
 class QuakeParser {
   events: string[]
   games: Game[] = []
 
-  constructor() {
-    const dataFile = fs.readFileSync(
-      path.join(__dirname + '/../../games.log'),
-      'utf-8'
-    )
-    this.events = dataFile.split('\n')
+  constructor(data: string | string[]) {
+    if (typeof data === 'string') {
+      this.events = data.split('\n')
+    } else {
+      this.events = data
+    }
   }
 
   get currentGame(): Game {
@@ -32,6 +30,7 @@ class QuakeParser {
           break
         case 'ClientConnect':
           // TO FORMAT THE ARGS AND ADD A NEW PLAYER
+          this.clientConnectOperator(args)
           break
         case 'ClientDisconnect':
           // TO FORMAT THE ARGS AND MOVE A PLAYER TO SOMETHING LIKE A HISTORIC
@@ -73,8 +72,19 @@ class QuakeParser {
     return Number(result[0])
   }
 
-  clientUserinfoChangedOperator(id: number, name: string): void {
+  clientUserinfoChangedOperator(args: string): void {
+    const id = this.findFirstIdValid(args)
+    const name = this.findFirstNameValid(args)
     this.currentGame.updatePlayerName(id, name)
+  }
+
+  findFirstNameValid(text: string): string {
+    const regex = /(?<=n\\)(.*?)(?=.t\\)/
+    const name = regex.exec(text)
+    if (!name) {
+      throw new Error(`Valid name not found in ${text}`)
+    }
+    return name[0]
   }
 }
 
