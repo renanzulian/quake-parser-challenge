@@ -65,8 +65,8 @@ describe('QuakeParserCore Entity', () => {
     core.initGameOperator()
     const randomIdOne = faker.random.number(10)
     const randomIdTwo = faker.random.number(10)
-    core.clientConnectOperator(randomIdOne)
-    core.clientConnectOperator(randomIdTwo)
+    core.clientConnectOperator(`${randomIdOne}`)
+    core.clientConnectOperator(`${randomIdTwo}`)
     const allPlayers = core.currentGame.players
     allPlayers.forEach((player) => {
       expect(player.name).toBe('Unknown')
@@ -79,7 +79,7 @@ describe('QuakeParserCore Entity', () => {
     core.initGameOperator()
     const randomId = faker.random.number(10)
     const randomName = faker.name.firstName()
-    core.clientConnectOperator(randomId)
+    core.clientConnectOperator(` ${randomId} `)
     core.clientUserinfoChangedOperator(randomId, randomName)
     const player = core.currentGame.getPlayerById(randomId)
     expect(player.name).toBe(randomName)

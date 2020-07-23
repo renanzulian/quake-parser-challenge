@@ -59,14 +59,18 @@ class QuakeParser {
     this.games.push(new Game(gameId))
   }
 
-  clientConnectOperator(id: number): void {
-    this.currentGame.addPlayer(id)
+  clientConnectOperator(args: string): void {
+    const playerId = this.findFirstIdValid(args)
+    this.currentGame.addPlayer(playerId)
   }
 
-  findFirstIdValid(text: string): number | undefined {
+  findFirstIdValid(text: string): number {
     const regex = /(\d+)/
     const result = regex.exec(text)
-    return result ? Number(result[0]) : undefined
+    if (!result) {
+      throw new Error(`Valid id not found in ${text}`)
+    }
+    return Number(result[0])
   }
 
   clientUserinfoChangedOperator(id: number, name: string): void {
