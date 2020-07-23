@@ -31,6 +31,11 @@ Usando o comando `docker build -t {NomeDoSeuNovoContainer}` você irá gerar uma
 
 Coloque as informações desejadas corretamente dentro dos comandos e pronto. Só acessar a porta que você inseriu.
 
+Caso queira rodar uma imagem publica use o seguinte comandos:
+
+`docker run -d -p {PortaDesejada}:3333 renanzulian/quake-parser-challenge`
+
+
 
 -----
 
