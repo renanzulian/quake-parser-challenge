@@ -1,4 +1,5 @@
 import Game from './components/Games'
+import Player from './components/Player'
 
 class QuakeParser {
   private _events: string[]
@@ -125,14 +126,17 @@ class QuakeParser {
   get results(): Array<
     Record<string, Record<string, number | Record<string, number>>>
   > {
-    return this._games.map((game) => game.endScore)
+    return this._games.map((game) => game.engGameScore)
   }
 
-  get ranking(): Record<string, number> {
-    const allPlayers = this._games
-      .map((game) => game.historicPlayers)
-      .reduce((prev, curr) => [...prev, ...curr], [])
-    const playersScores = allPlayers.map((player) => ({
+  get resultsWithHistoric(): Array<
+    Record<string, Record<string, number | Record<string, number>>>
+  > {
+    return this._games.map((game) => game.resumeScore)
+  }
+
+  private rankingFormatter(playerList: Player[]): Record<string, number> {
+    const playersScores = playerList.map((player) => ({
       [player.name]: player.kills,
     }))
     const rankingFormatted = playersScores.reduce((prev, curr) => {
@@ -148,6 +152,20 @@ class QuakeParser {
       .map((player) => ({ [player]: rankingFormatted[player] }))
       .reduce((prev, curr) => ({ ...prev, ...curr }), {})
     return rankingSorted
+  }
+
+  get ranking(): Record<string, number> {
+    const allPlayers = this._games
+      .map((game) => game.players)
+      .reduce((prev, curr) => [...prev, ...curr], [])
+    return this.rankingFormatter(allPlayers)
+  }
+
+  get historicRanking(): Record<string, number> {
+    const allPlayers = this._games
+      .map((game) => game.historicPlayers)
+      .reduce((prev, curr) => [...prev, ...curr], [])
+    return this.rankingFormatter(allPlayers)
   }
 }
 

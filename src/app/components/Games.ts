@@ -97,7 +97,7 @@ class Game {
     }
   }
 
-  get endScore(): Record<
+  get engGameScore(): Record<
     string,
     Record<string, number | Record<string, number>>
   > {

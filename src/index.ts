@@ -30,6 +30,10 @@ class App {
       res.status(200).send(this.quakeParser.results)
     })
 
+    this.server.get('/games/historic', (req, res) => {
+      res.status(200).send(this.quakeParser.resultsWithHistoric)
+    })
+
     this.server.get('/games/:idGame', (req, res) => {
       const id = Number(req.params.idGame)
       if (Number.isNaN(id)) {
@@ -41,8 +45,23 @@ class App {
       }
     })
 
+    this.server.get('/games/:idGame/historic', (req, res) => {
+      const id = Number(req.params.idGame)
+      if (Number.isNaN(id)) {
+        res.status(400).send({ message: 'Id must to be a valid integer' })
+      } else if (id > 21 || id < 1) {
+        res.status(400).send({ message: 'Id must to be between 1 and 21' })
+      } else {
+        res.status(200).send(this.quakeParser.resultsWithHistoric[id - 1])
+      }
+    })
+
     this.server.get('/ranking', (req, res) => {
       res.status(200).send(this.quakeParser.ranking)
+    })
+
+    this.server.get('/ranking/historic', (req, res) => {
+      res.status(200).send(this.quakeParser.historicRanking)
     })
 
     this.server.use('*', (req, res) => {
