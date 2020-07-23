@@ -9,6 +9,9 @@ export const quakeOperators = [
   'Kill',
   'Item',
   'Shutdown',
+  'ClientBegin',
+  'score',
+  'Exit',
 ]
 
 export const fileTest = (): string => {

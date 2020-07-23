@@ -1,31 +1,39 @@
 import Game from './components/Games'
 
 class QuakeParser {
-  events: string[]
-  games: Game[] = []
+  private _events: string[]
+  private _games: Game[] = []
 
   constructor(data: string | string[]) {
     if (typeof data === 'string') {
-      this.events = data.split('\n')
+      this._events = data.split('\n')
     } else {
-      this.events = data
+      this._events = data
     }
   }
 
+  get events(): string[] {
+    return this._events
+  }
+
+  get games(): Game[] {
+    return this._games
+  }
+
   get currentGame(): Game {
-    return this.games[this.games.length - 1]
+    return this._games[this._games.length - 1]
   }
 
   get currentEvent(): string {
-    return this.events[0]
+    return this._events[0]
   }
 
   get results(): any[] {
-    return this.games.map((game) => game.resumeScore)
+    return this._games.map((game) => game.resumeScore)
   }
 
   get ranking(): string {
-    const allPlayers = this.games
+    const allPlayers = this._games
       .map((game) => game.players)
       .reduce((prev, curr) => [...prev, ...curr], [])
     const playersScores = allPlayers.map((player) => ({
@@ -73,7 +81,7 @@ class QuakeParser {
         default:
           break
       }
-      this.events.shift()
+      this._events.shift()
     } while (this.currentEvent)
   }
 
@@ -83,8 +91,8 @@ class QuakeParser {
   }
 
   initGameOperator(): void {
-    const gameId = this.games.length + 1
-    this.games.push(new Game(gameId))
+    const gameId = this._games.length + 1
+    this._games.push(new Game(gameId))
   }
 
   clientConnectOperator(args: string): void {

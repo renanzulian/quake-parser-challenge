@@ -52,8 +52,3 @@ class App {
 }
 
 export default new App().server
-
-// const app = new QuakeParser(data)
-
-// app.run()
-// console.log(app.ranking)

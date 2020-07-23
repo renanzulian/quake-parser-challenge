@@ -31,39 +31,6 @@ class Game {
     return this._disconnectedPlayers
   }
 
-  get resumeScore(): any {
-    const allPlayers = this._players.concat(this._disconnectedPlayers)
-    const playerScores = allPlayers
-      .map((player) => ({
-        [player.name]: player.kills,
-      }))
-      .reduce((prev, curr) => {
-        const currentName = Object.keys(curr)[0]
-        const currentValue = Object.values(curr)[0]
-        if (Object.keys(prev).includes(currentName)) {
-          prev[currentName] += currentValue
-        }
-        return { ...prev, ...curr }
-      }, {})
-    return {
-      [`game ${this._id}`]: {
-        totalKills: this._totalKills,
-        players: playerScores,
-      },
-    }
-  }
-
-  get endScore(): any {
-    return {
-      [`game ${this._id}`]: {
-        totalKills: this._totalKills,
-        players: this._players
-          .map((player) => player.score)
-          .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
-      },
-    }
-  }
-
   addPlayer(id: number): void {
     const player = new Player(id)
     this._players.push(player)
@@ -91,15 +58,53 @@ class Game {
   }
 
   eventKill(whoDiedId: number, whoKillId?: number): void {
-    const whoDied = this.getPlayerById(whoDiedId)
-    // whoDied.addDeath() // DEATH FEATURE NOT IMPLEMENTED YET
     if (typeof whoKillId !== 'undefined') {
       const whoKill = this.getPlayerById(whoKillId)
       whoKill.addKill()
     } else {
+      const whoDied = this.getPlayerById(whoDiedId)
       whoDied.subtractKill()
     }
     this._totalKills += 1
+  }
+
+  get resumeScore(): Record<
+    string,
+    Record<string, number | Record<string, number>>
+  > {
+    const allPlayers = this._players.concat(this._disconnectedPlayers)
+    const playerScores = allPlayers
+      .map((player) => ({
+        [player.name]: player.kills,
+      }))
+      .reduce((prev, curr) => {
+        const currentName = Object.keys(curr)[0]
+        const currentValue = Object.values(curr)[0]
+        if (Object.keys(prev).includes(currentName)) {
+          prev[currentName] += currentValue
+        }
+        return { ...prev, ...curr }
+      }, {})
+    return {
+      [`game ${this._id}`]: {
+        totalKills: this._totalKills,
+        players: playerScores,
+      },
+    }
+  }
+
+  get endScore(): Record<
+    string,
+    Record<string, number | Record<string, number>>
+  > {
+    return {
+      [`game ${this._id}`]: {
+        totalKills: this._totalKills,
+        players: this._players
+          .map((player) => player.score)
+          .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
+      },
+    }
   }
 }
 

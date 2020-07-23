@@ -8,7 +8,7 @@ describe('Game Entity', () => {
 
   beforeEach(() => {
     const randomInt = faker.random.number(10)
-    range = Array.from(Array(faker.random.number({ max: 20, min: 5 })).keys())
+    range = Array.from(Array(faker.random.number({ max: 50, min: 20 })).keys())
     game = new Game(randomInt)
     range.forEach((id) => {
       game.addPlayer(id)
@@ -20,8 +20,8 @@ describe('Game Entity', () => {
   })
 
   it('should add many players', () => {
-    game.addPlayer(range.length + 1)
-    const randomInt = faker.random.number(range.length)
+    game.addPlayer(range.length + 10)
+    const randomInt = faker.random.number(20)
     const player = game.getPlayerById(randomInt)
     expect(player.id).toBe(randomInt)
     expect(player.name).toBe('Unknown')
@@ -32,7 +32,7 @@ describe('Game Entity', () => {
   })
 
   it('should update the name of any player', () => {
-    const randomId = faker.random.number({ min: 1, max: range.length - 1 })
+    const randomId = faker.random.number(10)
     const randomName = faker.name.firstName()
     game.updatePlayerName(randomId, randomName)
     const player = game.getPlayerById(randomId)
@@ -40,15 +40,17 @@ describe('Game Entity', () => {
   })
 
   it('should move any player to disconnected players', () => {
-    const randomId = faker.random.number(range.length)
+    const randomId = faker.random.number(10)
     game.removePlayer(randomId)
     expect(game.players.length).toBe(range.length - 1)
     expect(game.disconnectedPlayers.length).toBe(1)
   })
 
   it('should save a event kill', () => {
-    game.eventKill(2, 3)
-    game.eventKill(2)
+    const randomFirsId = faker.random.number(10)
+    const randomSecondId = faker.random.number({ min: 11, max: 20 })
+    game.eventKill(randomFirsId, randomSecondId)
+    game.eventKill(randomFirsId)
     expect(game.totalKills).toBe(2)
   })
 })
