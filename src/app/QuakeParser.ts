@@ -1,4 +1,5 @@
 import Game from './components/Games'
+import Player from './components/Player'
 
 class QuakeParser {
   events: string[]
@@ -18,6 +19,33 @@ class QuakeParser {
 
   get currentEvent(): string {
     return this.events[0]
+  }
+
+  get results(): string {
+    return JSON.stringify(
+      this.games.map((game) => game.score),
+      null,
+      4
+    )
+  }
+
+  get ranking(): string {
+    const allPlayers = this.games
+      .map((game) => game.players)
+      .reduce((prev, curr) => [...prev, ...curr], [])
+    const playersScores = allPlayers.map((player) => ({
+      [player.name]: player.kills,
+    }))
+    const rankingFormatted = playersScores.reduce((prev, curr) => {
+      const currentName = Object.keys(curr)[0]
+      const currentValue = Object.values(curr)[0]
+      if (Object.keys(prev).includes(currentName)) {
+        prev[currentName] += currentValue
+      }
+      return { ...prev, ...curr }
+    }, {})
+
+    return JSON.stringify(rankingFormatted, null, 4)
   }
 
   run(): void {
@@ -49,8 +77,6 @@ class QuakeParser {
       }
       this.events.shift()
     } while (this.currentEvent)
-    const result = { ...this.games.map((game) => game.score) }
-    console.log(JSON.stringify(result, null, 4))
   }
 
   eventSplitter(event: string): Record<string, string> {

@@ -7,3 +7,4 @@ const data = fs.readFileSync(path.join(__dirname + '/../games.log'), 'utf-8')
 const app = new QuakeParser(data)
 
 app.run()
+console.log(app.ranking)
