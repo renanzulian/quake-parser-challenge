@@ -37,6 +37,10 @@ class Player {
     this._kills += 1
   }
 
+  subtractKill(): void {
+    this._kills -= 1
+  }
+
   addDeath(): void {
     this._deaths += 1
   }

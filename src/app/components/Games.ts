@@ -70,10 +70,12 @@ class Game {
 
   eventKill(whoDiedId: number, whoKillId?: number): void {
     const whoDied = this.getPlayerById(whoDiedId)
-    whoDied.addDeath()
+    // whoDied.addDeath() // DEATH FEATURE NOT IMPLEMENTED YET
     if (typeof whoKillId !== 'undefined') {
       const whoKill = this.getPlayerById(whoKillId)
       whoKill.addKill()
+    } else {
+      whoDied.subtractKill()
     }
     this._totalKills += 1
   }
