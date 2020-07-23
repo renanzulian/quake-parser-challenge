@@ -37,6 +37,7 @@ class QuakeParser {
           break
         case 'ClientUserinfoChanged':
           // TO FORMAT THE ARGS AND MOVE UPDATE PLAYER NAME
+          this.clientUserinfoChangedOperator(args)
           break
         case 'Kill':
           // TO FORMAT THE ARGS AND ADD A KILL IN THE GAME
@@ -85,6 +86,11 @@ class QuakeParser {
       throw new Error(`Valid name not found in ${text}`)
     }
     return name[0]
+  }
+
+  clientDisconnectOperator(args: string): void {
+    const id = this.findFirstIdValid(args)
+    this.currentGame.removePlayer(id)
   }
 }
 
