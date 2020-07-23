@@ -6,6 +6,7 @@ Principais tecnologias envolvidas:
 - Express
 - Jest (Biblioteca para testes em JavaScript)
 - Faker (Criação de testes dinâmicos)
+- Docker (Rodando a aplicação com container)
 
 ------
 
@@ -22,7 +23,20 @@ Responsável por controlar as informações de um jogador.
 
 -----
 
+## Usando a aplicação com containers
+
+Usando o comando `docker build -t {NomeDoSeuNovoContainer}` você irá gerar uma imagem local. Para instância-la rode o comando abaixo:
+
+`docker run -d -p {PortaDesejada}:3333 {NomeDoSeuContainer}`
+
+Coloque as informações desejadas corretamente dentro dos comandos e pronto. Só acessar a porta que você inseriu.
+
+
+-----
+
 ## Instruções de uso
+
+
 
 É necessário ter o NodeJS e o NPM instalado em versões recentes para utilizar todo o sistema. Instale as dependências através do comando `npm install` no diretório do projeto. Para utilizar o sistema utilize os seguintes comandos:
 
