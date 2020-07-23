@@ -63,6 +63,12 @@ class QuakeParser {
     this.currentGame.addPlayer(id)
   }
 
+  findFirstIdValid(text: string): number | undefined {
+    const regex = /(\d+)/
+    const result = regex.exec(text)
+    return result ? Number(result[0]) : undefined
+  }
+
   clientUserinfoChangedOperator(id: number, name: string): void {
     this.currentGame.updatePlayerName(id, name)
   }

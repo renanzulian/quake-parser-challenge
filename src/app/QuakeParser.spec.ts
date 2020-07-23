@@ -54,6 +54,13 @@ describe('QuakeParserCore Entity', () => {
     expect(core.currentGame.totalKills).toBe(0)
   })
 
+  it('should find the id of the new player', () => {
+    const eventExample = ' 11:04 ClientConnect: 6'
+    const { args } = core.eventSplitter(eventExample)
+    const id = core.findFirstIdValid(args)
+    expect(id).toBe(6)
+  })
+
   it('should add a player in the current game', () => {
     core.initGameOperator()
     const randomIdOne = faker.random.number(10)
