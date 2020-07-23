@@ -74,14 +74,4 @@ describe('QuakeParserCore Entity', () => {
     })
     expect(core.currentGame.numberPlayers).toBe(2)
   })
-
-  // it('should update the player name', () => {
-  //   core.initGameOperator()
-  //   const randomId = faker.random.number(10)
-  //   const randomName = faker.name.firstName()
-  //   core.clientConnectOperator(` ${randomId} `)
-  //   core.clientUserinfoChangedOperator('  2 n\Isgalamido\t\1\model ')
-  //   const player = core.currentGame.getPlayerById(randomId)
-  //   expect(player.name).toBe(randomName)
-  // })
 })

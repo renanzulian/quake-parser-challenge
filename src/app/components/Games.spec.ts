@@ -1,6 +1,7 @@
 import * as faker from 'faker'
 import Game from './Games'
 import Player from './Player'
+import { ModKill } from '../utils/utils'
 
 describe('Game Entity', () => {
   let game: Game
@@ -49,8 +50,10 @@ describe('Game Entity', () => {
   it('should save a event kill', () => {
     const randomFirsId = faker.random.number(10)
     const randomSecondId = faker.random.number({ min: 11, max: 20 })
-    game.eventKill(randomFirsId, randomSecondId)
-    game.eventKill(randomFirsId)
+    const randomInt = faker.random.number(20)
+    game.eventKill(randomFirsId, randomInt, randomSecondId)
+    game.eventKill(randomFirsId, randomInt)
     expect(game.totalKills).toBe(2)
+    expect(game.killByMean[ModKill[randomInt]]).toBe(2)
   })
 })

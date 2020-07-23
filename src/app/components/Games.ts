@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Player from './Player'
+import { ModKill } from '../utils/utils'
 
 class Game {
   private _id: number
+  private _killByMean: any
   private _totalKills: number
   private _players: Player[] = []
   private _disconnectedPlayers: Player[] = []
@@ -9,6 +12,7 @@ class Game {
   constructor(id: number) {
     this._id = id
     this._totalKills = 0
+    this._killByMean = {}
   }
 
   get id(): number {
@@ -33,6 +37,10 @@ class Game {
 
   get disconnectedPlayers(): Player[] {
     return this._disconnectedPlayers
+  }
+
+  get killByMean(): Record<string, number> {
+    return this._killByMean
   }
 
   addPlayer(id: number): void {
@@ -61,7 +69,7 @@ class Game {
     })
   }
 
-  eventKill(whoDiedId: number, whoKillId?: number): void {
+  eventKill(whoDiedId: number, killMean: number, whoKillId?: number): void {
     if (typeof whoKillId !== 'undefined') {
       const whoKill = this.getPlayerById(whoKillId)
       whoKill.addKill()
@@ -69,7 +77,17 @@ class Game {
       const whoDied = this.getPlayerById(whoDiedId)
       whoDied.subtractKill()
     }
+    this.addKillByMean(killMean)
     this._totalKills += 1
+  }
+
+  private addKillByMean(code: number): void {
+    const { ...meansSaved } = this._killByMean
+    if (Object.keys(meansSaved).includes(ModKill[code])) {
+      this._killByMean[ModKill[code]] += 1
+    } else {
+      this._killByMean[ModKill[code]] = 1
+    }
   }
 
   get resumeScore(): Record<

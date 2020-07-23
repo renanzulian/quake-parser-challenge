@@ -1,5 +1,6 @@
 import Game from './components/Games'
 import Player from './components/Player'
+import { kill } from 'process'
 
 class QuakeParser {
   private _events: string[]
@@ -105,11 +106,11 @@ class QuakeParser {
   }
 
   killOperator(args: string): void {
-    const [whoKill, whoDied] = this.findTwoFirstsIdValid(args)
+    const [whoKill, whoDied, killMean] = this.findTwoFirstsIdValid(args)
     if (whoKill === 1022) {
-      this.currentGame.eventKill(whoDied)
+      this.currentGame.eventKill(whoDied, killMean)
     } else {
-      this.currentGame.eventKill(whoDied, whoKill)
+      this.currentGame.eventKill(whoDied, killMean, whoKill)
     }
   }
 
@@ -119,8 +120,8 @@ class QuakeParser {
     if (result === null) {
       throw new Error(`Two ids valid not found in ${text}`)
     }
-    const [firstId, secondId] = result
-    return [Number(firstId), Number(secondId)]
+    const [firstId, secondId, killId] = result
+    return [Number(firstId), Number(secondId), Number(killId)]
   }
 
   get results(): Array<
@@ -166,6 +167,24 @@ class QuakeParser {
       .map((game) => game.historicPlayers)
       .reduce((prev, curr) => [...prev, ...curr], [])
     return this.rankingFormatter(allPlayers)
+  }
+
+  get rankingKillByMean(): Record<string, number> {
+    const allResults = this._games
+      .map((game) => game.killByMean)
+      .reduce((prev, curr) => {
+        const currentName = Object.keys(curr)[0]
+        const currentValue = Object.values(curr)[0]
+        if (Object.keys(prev).includes(currentName)) {
+          prev[currentName] += currentValue
+        }
+        return { ...prev, ...curr }
+      }, {})
+    const rankingSorted = Object.keys(allResults)
+      .sort((a, b) => allResults[b] - allResults[a])
+      .map((player) => ({ [player]: allResults[player] }))
+      .reduce((prev, curr) => ({ ...prev, ...curr }), {})
+    return rankingSorted
   }
 }
 
