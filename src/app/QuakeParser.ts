@@ -29,12 +29,12 @@ class QuakeParser {
   }
 
   get results(): any[] {
-    return this._games.map((game) => game.resumeScore)
+    return this._games.map((game) => game.endScore)
   }
 
   get ranking(): string {
     const allPlayers = this._games
-      .map((game) => game.players)
+      .map((game) => game.historicPlayers)
       .reduce((prev, curr) => [...prev, ...curr], [])
     const playersScores = allPlayers.map((player) => ({
       [player.name]: player.kills,

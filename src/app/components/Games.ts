@@ -27,6 +27,10 @@ class Game {
     return this._players
   }
 
+  get historicPlayers(): Player[] {
+    return this._players.concat(this._disconnectedPlayers)
+  }
+
   get disconnectedPlayers(): Player[] {
     return this._disconnectedPlayers
   }
