@@ -64,6 +64,10 @@ class App {
       res.status(200).send(this.quakeParser.historicRanking)
     })
 
+    this.server.get('/plus', (req, res) => {
+      res.status(200).send(this.quakeParser.rankingKillByMean)
+    })
+
     this.server.use('*', (req, res) => {
       res.status(400).send({ message: 'Method not found' })
     })

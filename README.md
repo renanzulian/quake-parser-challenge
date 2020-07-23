@@ -55,6 +55,10 @@ Retorna o ranking de todos os jogos levando em consideração o resultado final 
 
 Retorna o ranking de todos os jogos levando em consideração o resultado final deles e isso inclui as informações de todos usuários (incluindo os que caíram durante a partida).
 
+- localhost:3333/plus 
+
+Retorna o ranking de modalidade de mortes.
+
 ### `npm run test`
 Inicia todos os arquivos de testes.
 
