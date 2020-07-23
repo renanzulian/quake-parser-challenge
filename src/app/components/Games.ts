@@ -32,12 +32,23 @@ class Game {
   }
 
   get score(): any {
+    const allPlayers = this._players.concat(this._disconnectedPlayers)
+    const playerScores = allPlayers
+      .map((player) => ({
+        [player.name]: player.kills,
+      }))
+      .reduce((prev, curr) => {
+        const currentName = Object.keys(curr)[0]
+        const currentValue = Object.values(curr)[0]
+        if (Object.keys(prev).includes(currentName)) {
+          prev[currentName] += currentValue
+        }
+        return { ...prev, ...curr }
+      }, {})
     return {
       [`game ${this._id}`]: {
         totalKills: this._totalKills,
-        players: this._players
-          .map((player) => player.score)
-          .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
+        players: playerScores,
       },
     }
   }
