@@ -31,7 +31,7 @@ class Game {
     return this._disconnectedPlayers
   }
 
-  get score(): any {
+  get resumeScore(): any {
     const allPlayers = this._players.concat(this._disconnectedPlayers)
     const playerScores = allPlayers
       .map((player) => ({
@@ -49,6 +49,17 @@ class Game {
       [`game ${this._id}`]: {
         totalKills: this._totalKills,
         players: playerScores,
+      },
+    }
+  }
+
+  get endScore(): any {
+    return {
+      [`game ${this._id}`]: {
+        totalKills: this._totalKills,
+        players: this._players
+          .map((player) => player.score)
+          .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
       },
     }
   }

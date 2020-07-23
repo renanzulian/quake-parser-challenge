@@ -22,7 +22,7 @@ class QuakeParser {
   }
 
   get results(): any[] {
-    return this.games.map((game) => game.score)
+    return this.games.map((game) => game.resumeScore)
   }
 
   get ranking(): string {
