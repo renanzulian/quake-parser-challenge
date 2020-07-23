@@ -8,7 +8,7 @@
     "start": "nodemon src/bin/server.ts",
     "test": "jest",
     "ranking": "ts-node scripts/ranking.ts",
-    "games": "ts-node scripts/games.ts"
+    "games": "ts-node scripts/resume.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
