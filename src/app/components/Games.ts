@@ -31,6 +31,17 @@ class Game {
     return this._disconnectedPlayers
   }
 
+  get score(): any {
+    return {
+      [`game ${this._id}`]: {
+        totalKills: this._totalKills,
+        players: this._players
+          .map((player) => player.score)
+          .reduce((prev, curr) => ({ ...prev, ...curr }), {}),
+      },
+    }
+  }
+
   addPlayer(id: number): void {
     const player = new Player(id)
     this._players.push(player)

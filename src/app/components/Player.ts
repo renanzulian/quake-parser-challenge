@@ -27,6 +27,12 @@ class Player {
     return this._kills
   }
 
+  get score(): Record<string, number> {
+    return {
+      [this._name]: this._kills,
+    }
+  }
+
   addKill(): void {
     this._kills += 1
   }

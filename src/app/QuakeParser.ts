@@ -49,6 +49,8 @@ class QuakeParser {
       }
       this.events.shift()
     } while (this.currentEvent)
+    const result = { ...this.games.map((game) => game.score) }
+    console.log(JSON.stringify(result, null, 4))
   }
 
   eventSplitter(event: string): Record<string, string> {
