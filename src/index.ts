@@ -26,11 +26,11 @@ class App {
   }
 
   routes() {
-    this.server.get('/', (req, res) => {
+    this.server.get('/games', (req, res) => {
       res.status(200).send(this.quakeParser.results)
     })
 
-    this.server.get('/:idGame', (req, res) => {
+    this.server.get('/games/:idGame', (req, res) => {
       const id = Number(req.params.idGame)
       if (Number.isNaN(id)) {
         res.status(400).send({ message: 'Id must to be a valid integer' })
@@ -39,6 +39,10 @@ class App {
       } else {
         res.status(200).send(this.quakeParser.results[id - 1])
       }
+    })
+
+    this.server.get('/ranking', (req, res) => {
+      res.status(200).send(this.quakeParser.ranking)
     })
 
     this.server.use('*', (req, res) => {

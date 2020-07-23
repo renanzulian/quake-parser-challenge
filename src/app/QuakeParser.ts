@@ -40,8 +40,11 @@ class QuakeParser {
       }
       return { ...prev, ...curr }
     }, {})
-
-    return JSON.stringify(rankingFormatted, null, 4)
+    const rankingSorted = Object.keys(rankingFormatted)
+      .sort((a, b) => rankingFormatted[b] - rankingFormatted[a])
+      .map((player) => ({ [player]: rankingFormatted[player] }))
+      .reduce((prev, curr) => ({ ...prev, ...curr }), {})
+    return JSON.stringify(rankingSorted, null, 4)
   }
 
   run(): void {
