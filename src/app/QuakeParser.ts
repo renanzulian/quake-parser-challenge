@@ -21,12 +21,8 @@ class QuakeParser {
     return this.events[0]
   }
 
-  get results(): string {
-    return JSON.stringify(
-      this.games.map((game) => game.score),
-      null,
-      4
-    )
+  get results(): any[] {
+    return this.games.map((game) => game.score)
   }
 
   get ranking(): string {
