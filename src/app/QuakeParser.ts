@@ -145,8 +145,10 @@ class QuakeParser {
       const currentValue = Object.values(curr)[0]
       if (Object.keys(prev).includes(currentName)) {
         prev[currentName] += currentValue
+      } else {
+        prev[currentName] = currentValue
       }
-      return { ...prev, ...curr }
+      return prev
     }, {})
     const rankingSorted = Object.keys(rankingFormatted)
       .sort((a, b) => rankingFormatted[b] - rankingFormatted[a])
@@ -170,21 +172,29 @@ class QuakeParser {
   }
 
   get rankingKillByMean(): Record<string, number> {
-    const allResults = this._games
-      .map((game) => game.killByMean)
-      .reduce((prev, curr) => {
-        const currentName = Object.keys(curr)[0]
-        const currentValue = Object.values(curr)[0]
-        if (Object.keys(prev).includes(currentName)) {
-          prev[currentName] += currentValue
+    const allResults = this._games.map((game) => game.killByMean)
+
+    const aux = allResults.reduce((prev, curr) => {
+      Object.keys(curr).forEach((mode) => {
+        if (Object.keys(prev).includes(mode)) {
+          prev[mode] += curr[mode]
+        } else {
+          prev[mode] = curr[mode]
         }
-        return { ...prev, ...curr }
-      }, {})
-    const rankingSorted = Object.keys(allResults)
-      .sort((a, b) => allResults[b] - allResults[a])
-      .map((player) => ({ [player]: allResults[player] }))
+      })
+      return prev
+    }, {})
+    const rankingSorted = Object.keys(aux)
+      .sort((a, b) => aux[b] - aux[a])
+      .map((player) => ({ [player]: aux[player] }))
       .reduce((prev, curr) => ({ ...prev, ...curr }), {})
     return rankingSorted
+  }
+
+  get killFromAllGames(): number {
+    return this._games
+      .map((game) => game.totalKills)
+      .reduce((prev, curr) => prev + curr, 0)
   }
 }
 

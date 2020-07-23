@@ -104,8 +104,10 @@ class Game {
         const currentValue = Object.values(curr)[0]
         if (Object.keys(prev).includes(currentName)) {
           prev[currentName] += currentValue
+        } else {
+          prev[currentName] = currentValue
         }
-        return { ...prev, ...curr }
+        return prev
       }, {})
     return {
       [`game ${this._id}`]: {

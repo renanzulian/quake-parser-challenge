@@ -54,7 +54,7 @@ describe('QuakeParserCore Entity', () => {
     expect(core.currentGame.totalKills).toBe(0)
   })
 
-  it('should find the id of the new player', () => {
+  it('should find first valid id', () => {
     const eventExample = ' 11:04 ClientConnect: 6'
     const { args } = core.eventSplitter(eventExample)
     const id = core.findFirstIdValid(args)
@@ -73,5 +73,22 @@ describe('QuakeParserCore Entity', () => {
       expect(player.kills).toBe(0)
     })
     expect(core.currentGame.numberPlayers).toBe(2)
+  })
+
+  it('should run a test file', () => {
+    core.run()
+    const scoreGame2TestFile = core.resultsWithHistoric[1]['game 2']
+    const endScoreGame2 = core.results[1]['game 2']
+    expect(core.games.length).toBe(6)
+    expect(core.rankingKillByMean).toHaveProperty('MOD_TRIGGER_HURT')
+    expect(core.rankingKillByMean['MOD_TRIGGER_HURT']).toBe(26)
+    expect(core.killFromAllGames).toBe(163)
+    expect(scoreGame2TestFile['players']).toEqual({
+      Isgalamido: -5,
+      Mocinha: 0,
+    })
+    expect(endScoreGame2['players']).toEqual({
+      Isgalamido: -3,
+    })
   })
 })
